@@ -55,6 +55,12 @@ Step-by-step procedures for specific QA tasks. Each is user-invocable via `/skil
 | [test-data-management](skills/test-data-management/SKILL.md) | Seed, reset, and factory strategies for test data |
 | [confluence-docs](skills/confluence-docs/SKILL.md) | Publish QA docs, test plans, runbooks, and retros |
 
+**Prompt Engineering**
+
+| Skill | Purpose |
+|---|---|
+| [prompt-maker](skills/prompt-maker/SKILL.md) | Guided Five-Part Framework (Identity, Task, Context, Constraints, Output Format) for authoring eval prompts, red-team prompts, and test-case prompts |
+
 ## Installation
 
 ### Copy to your Claude Code user directory
@@ -71,7 +77,7 @@ cp -r qa-toolkit/skills/* ~/.agents/skills/
 
 # Symlink skills into Claude Code's discovery path
 cd ~/.claude/skills
-for dir in ~/.agents/skills/api-testing ~/.agents/skills/bug-triage ~/.agents/skills/confluence-docs ~/.agents/skills/cypress-test-creation ~/.agents/skills/exploratory-testing ~/.agents/skills/jira ~/.agents/skills/jira-qa ~/.agents/skills/playwright-remote-testing ~/.agents/skills/pr-approval ~/.agents/skills/pr-research-test-plan ~/.agents/skills/pr-research-test-results ~/.agents/skills/regression-testing ~/.agents/skills/test-data-management ~/.agents/skills/xray; do
+for dir in ~/.agents/skills/api-testing ~/.agents/skills/bug-triage ~/.agents/skills/confluence-docs ~/.agents/skills/cypress-test-creation ~/.agents/skills/exploratory-testing ~/.agents/skills/jira ~/.agents/skills/jira-qa ~/.agents/skills/playwright-remote-testing ~/.agents/skills/pr-approval ~/.agents/skills/pr-research-test-plan ~/.agents/skills/pr-research-test-results ~/.agents/skills/prompt-maker ~/.agents/skills/regression-testing ~/.agents/skills/test-data-management ~/.agents/skills/xray; do
   ln -sf "$dir" "$(basename $dir)"
 done
 ```
