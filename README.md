@@ -59,7 +59,7 @@ Step-by-step procedures for specific QA tasks. Each is user-invocable via `/skil
 
 | Skill | Purpose |
 |---|---|
-| [workflow-setup](skills/workflow-setup/SKILL.md) | Scaffold a three-file Claude workflow (`CLAUDE.md` + `CONTEXT.md` + `REFERENCES.md`) at the start of a new project — code repo or Obsidian vault — so Claude inherits identity and context automatically |
+| [workflow-setup](skills/workflow-setup/SKILL.md) | Scaffold a Claude workflow at the start of a new project — single-folder (`CLAUDE.md` + `CONTEXT.md`) or multi-workspace (parent `CLAUDE.md` with a routing table + 2–3 sub-workspace folders, each with their own `CONTEXT.md`). Works in a code repo or Obsidian vault |
 | [prompt-maker](skills/prompt-maker/SKILL.md) | Guided Five-Part Framework (Identity, Task, Context, Constraints, Output Format) for authoring eval prompts, red-team prompts, and test-case prompts |
 
 ## Installation
