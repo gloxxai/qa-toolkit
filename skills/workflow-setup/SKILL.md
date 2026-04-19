@@ -1,11 +1,11 @@
 ---
-name: workspace-setup
-description: Scaffold a three-file Claude workspace (CLAUDE.md + CONTEXT.md + REFERENCES.md) at the start of any new project — a code repo, an Obsidian folder, a content project, anywhere Claude will be working repeatedly. Use when the user asks to "set up a workspace", "make a new workspace for X", "scaffold the three files", "start a new Claude project", "set up a folder for Claude", "new project for Cypress / PR-review / API-testing / code-review", or any phrasing that implies creating a dedicated folder where Claude should inherit identity and project context. Supports both walkthrough mode (one question at a time) and quick-scaffold mode (when the opening message already has enough detail). Auto-detects whether the target is inside an Obsidian vault and adds vault-friendly frontmatter only then; for plain code projects, emits the lesson templates verbatim. Does NOT execute the workspace — it only creates it.
+name: workflow-setup
+description: Scaffold a three-file Claude workflow (CLAUDE.md + CONTEXT.md + REFERENCES.md) at the start of any new project — a code repo, an Obsidian folder, a content project, anywhere Claude will be working repeatedly. Use when the user asks to "set up a workflow", "make a new workflow for X", "scaffold the three files", "start a new Claude project", "set up a folder for Claude", "new project for Cypress / PR-review / API-testing / code-review", or any phrasing that implies creating a dedicated folder where Claude should inherit identity and project context. Supports both walkthrough mode (one question at a time) and quick-scaffold mode (when the opening message already has enough detail). Auto-detects whether the target is inside an Obsidian vault and adds vault-friendly frontmatter only then; for plain code projects, emits the lesson templates verbatim. Does NOT execute the workflow — it only creates it.
 user-invocable: true
-argument-hint: "[workspace name, e.g. 'cypress-test-creation']"
+argument-hint: "[workflow name, e.g. 'cypress-test-creation']"
 ---
 
-# workspace-setup
+# workflow-setup
 
 Scaffold a dedicated folder with three files — `CLAUDE.md`, `CONTEXT.md`, `REFERENCES.md` — at the start of any new project, so Claude inherits identity and project context automatically whenever it runs inside that folder. Works for code repos, Obsidian vaults, content projects, or anywhere else — the target folder is whatever the user tells you.
 
@@ -25,7 +25,7 @@ The payoff: once the files exist, every conversation in that folder starts with 
 
 Two entry paths:
 
-- **Quick-scaffold mode** — the user's opening message already contains enough detail (workspace name + topic + at least a rough sense of what they're building). Infer the rest yourself, confirm in one sentence, and proceed to Step 3 (write files). Do NOT pepper them with questions when the answers are already on the table.
+- **Quick-scaffold mode** — the user's opening message already contains enough detail (workflow name + topic + at least a rough sense of what they're building). Infer the rest yourself, confirm in one sentence, and proceed to Step 3 (write files). Do NOT pepper them with questions when the answers are already on the table.
 - **Walkthrough mode** — user gave just a name, or nothing. Ask one question at a time (Step 2).
 
 Heuristic: if you can write all three files without blocking, do it. If you'd have to invent the project description, ask.
@@ -34,8 +34,8 @@ Heuristic: if you can write all three files without blocking, do it. If you'd ha
 
 Ask in this order, one at a time:
 
-**Q1 — Workspace name.**
-> What should this workspace be called? A short kebab-case name works well — e.g. `cypress-test-creation`, `pr-review`, `api-testing`, `frontend-playwright`.
+**Q1 — Workflow name.**
+> What should this workflow be called? A short kebab-case name works well — e.g. `cypress-test-creation`, `pr-review`, `api-testing`, `frontend-playwright`.
 
 Convert whatever they give you to kebab-case for the folder name. Preserve their original phrasing for use inside the files.
 
@@ -73,7 +73,7 @@ If the user skips, write REFERENCES.md with the placeholder template so they can
 Before writing anything:
 
 1. **Verify parent directory exists** (use Glob or Bash `ls`).
-2. **Check the target workspace folder does NOT already exist.** If it does, STOP and ask:
+2. **Check the target workflow folder does NOT already exist.** If it does, STOP and ask:
    > A folder already exists at `<path>`. Want me to: (a) add the three files alongside existing contents, (b) pick a different name, or (c) bail?
    Do not silently overwrite.
 3. **Confirm the resolved path** back to the user in one line: *"Scaffolding at `<full/path>` — confirm?"* If quick-scaffold mode and the path is unambiguous (e.g. the user gave a full path), skip the confirm and just write.
@@ -84,7 +84,7 @@ Use the templates below. Every filled-in `<placeholder>` should be replaced with
 
 **Two variants — pick based on the `IS_VAULT` flag from Step 2:**
 
-- **`IS_VAULT = true`** → prepend the frontmatter block shown first. Makes the workspace queryable from Obsidian Bases + tag search.
+- **`IS_VAULT = true`** → prepend the frontmatter block shown first. Makes the workflow queryable from Obsidian Bases + tag search.
 - **`IS_VAULT = false`** (code project, content folder, anything outside a vault) → omit frontmatter entirely. Ship the plain-markdown body exactly as the lesson teaches.
 
 #### `CLAUDE.md`
@@ -92,11 +92,11 @@ Use the templates below. Every filled-in `<placeholder>` should be replaced with
 Frontmatter (vault only):
 ```yaml
 ---
-type: workspace-identity
+type: workflow-identity
 tags:
-  - workspace
+  - workflow
   - claude
-workspace: <kebab-case-name>
+workflow: <kebab-case-name>
 created: <YYYY-MM-DD>
 ---
 ```
@@ -105,7 +105,7 @@ Body (always):
 ```markdown
 # Identity
 
-You are helping <NAME> with <ROLE / WHAT THEY DO IN THIS WORKSPACE>.
+You are helping <NAME> with <ROLE / WHAT THEY DO IN THIS WORKFLOW>.
 
 ## Rules
 - Write in plain, clear language
@@ -121,11 +121,11 @@ If the user didn't supply a name, default `<NAME>` to `Brandon`. If they want a 
 Frontmatter (vault only):
 ```yaml
 ---
-type: workspace-context
+type: workflow-context
 tags:
-  - workspace
+  - workflow
   - context
-workspace: <kebab-case-name>
+workflow: <kebab-case-name>
 created: <YYYY-MM-DD>
 updated: <YYYY-MM-DD>
 ---
@@ -150,11 +150,11 @@ Body (always):
 Frontmatter (vault only):
 ```yaml
 ---
-type: workspace-references
+type: workflow-references
 tags:
-  - workspace
+  - workflow
   - references
-workspace: <kebab-case-name>
+workflow: <kebab-case-name>
 created: <YYYY-MM-DD>
 ---
 ```
@@ -182,7 +182,7 @@ If the target directory doesn't exist yet, create it with a single Bash `mkdir -
 After writing, show the user a tree view of what was created:
 
 ```
-<workspace-name>/
+<workflow-name>/
 ├── CLAUDE.md          (Identity + house rules)
 ├── CONTEXT.md         (Current project)
 └── REFERENCES.md      (Background material)
@@ -193,27 +193,27 @@ Then tell them how to use it:
 > **Next step:** `cd <full/path>` and run `claude`. The three files will be loaded automatically at session start. Ask Claude something about the project and notice how much more specific the answer is than a cold start.
 
 If `IS_VAULT` was true, add a second line:
-> To edit later, open the vault in Obsidian — the files are tagged `#workspace` so they'll show up in any Base filtering on that tag.
+> To edit later, open the vault in Obsidian — the files are tagged `#workflow` so they'll show up in any Base filtering on that tag.
 
 If `IS_VAULT` was false, add instead:
 > To edit later, open the files in your editor of choice. They're plain markdown — no tooling required.
 
-If the workspace is for something that would benefit from a companion QA-toolkit skill (e.g. they said "cypress test creation" → mention the `/cypress-test-creation` skill; "api testing" → `/api-testing`; "pr review" → `/pr-research-test-plan`), note the relevant one in a single closing line. Do not list skills that aren't clearly relevant.
+If the workflow is for something that would benefit from a companion QA-toolkit skill (e.g. they said "cypress test creation" → mention the `/cypress-test-creation` skill; "api testing" → `/api-testing`; "pr review" → `/pr-research-test-plan`), note the relevant one in a single closing line. Do not list skills that aren't clearly relevant.
 
 ## Edge cases
 
-- **User gives only the workspace name** (e.g. just `/workspace-setup cypress`). Enter walkthrough mode starting at Q2. Don't skip ahead.
+- **User gives only the workflow name** (e.g. just `/workflow-setup cypress`). Enter walkthrough mode starting at Q2. Don't skip ahead.
 - **User pastes a huge project description into the opening message.** Infer everything, confirm the inferred values in one short block (*"Name: `cypress-test-creation` · Path: `~/code/cypress-test-creation/` · Building: …"*), then write. Saves them re-typing.
 - **Target folder already has content** → ask before writing (Step 3 case).
-- **User wants to update an existing workspace instead of creating a new one** → out of scope for this skill. Tell them: *"This skill scaffolds new workspaces. To update an existing one, open the file in Obsidian and edit directly — or ask me to edit `<path>/CONTEXT.md` as a plain file edit."*
-- **User wants nested sub-workspaces** (the "Section 3" multi-folder pattern with `script-lab/`, `production/`, `distribution/`, each with their own `CONTEXT.md`). Out of scope. Tell them: *"That's the nested pattern — create the parent workspace with this skill, then run the skill again inside each subfolder for per-sub-workspace CONTEXT.md files. The parent CLAUDE.md at the root applies to every subfolder automatically."*
+- **User wants to update an existing workflow instead of creating a new one** → out of scope for this skill. Tell them: *"This skill scaffolds new workflows. To update an existing one, open the file in Obsidian and edit directly — or ask me to edit `<path>/CONTEXT.md` as a plain file edit."*
+- **User wants nested sub-workflows** (the "Section 3" multi-folder pattern with `script-lab/`, `production/`, `distribution/`, each with their own `CONTEXT.md`). Out of scope. Tell them: *"That's the nested pattern — create the parent workflow with this skill, then run the skill again inside each subfolder for per-sub-workflow CONTEXT.md files. The parent CLAUDE.md at the root applies to every subfolder automatically."*
 - **User wants to skip a file entirely** (e.g. "I don't need REFERENCES.md yet"). Scaffold it anyway with placeholders — an empty REFERENCES.md costs nothing and prevents a re-run later. Mention it: *"REFERENCES.md created with placeholders — fill when you have material."*
 - **Path contains spaces** (e.g. the user points at `~/obsidian/<vault>/PR Review/`). Accept it; quote paths in any shell commands. Obsidian handles folder names with spaces fine.
 
 ## What you do NOT do
 
-- **Do not run `claude` or open a Claude session inside the workspace.** The skill scaffolds; the user drives.
+- **Do not run `claude` or open a Claude session inside the workflow.** The skill scaffolds; the user drives.
 - **Do not invent project details.** If the user didn't supply a good-looks-like statement, leave the placeholder — don't hallucinate one.
 - **Do not modify files outside the target folder.** No edits to the vault's root `CLAUDE.md`, no sidebar/property changes, no `Welcome.md` updates unless explicitly asked.
-- **Do not scaffold the Section 3 nested architecture** (script-lab / production / distribution sub-workspaces). That's a richer pattern; it deserves a separate skill if/when the user wants it.
+- **Do not scaffold the Section 3 nested architecture** (script-lab / production / distribution sub-workflows). That's a richer pattern; it deserves a separate skill if/when the user wants it.
 - **Do not commit or push.** Creating the files is the whole job. Any git work is a follow-up the user can request.
